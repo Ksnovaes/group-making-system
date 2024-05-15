@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Group } from './schemas/group.schema';
 import * as mongoose from 'mongoose';
@@ -21,6 +21,12 @@ export class GroupService {
     }
 
     async findById(id: string): Promise<Group> {
+        const isValid = mongoose.isValidObjectId(id)
+
+        if (!isValid) {
+            throw new BadRequestException('Enter a valid Id.')
+        }
+
         const group = await this.groupModel.findById(id);
 
         if (!group) {
