@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { Group } from './schemas/group.schema';
 import { CreateGroupDTO } from './dto/create-group.dto';
 import { UpdateGroupDTO } from './dto/update-group.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('group')
 export class GroupController {
@@ -14,11 +15,13 @@ export class GroupController {
     }
 
     @Post('create')
+    @UseGuards(AuthGuard())
     async createGroup(
         @Body()
-        group: CreateGroupDTO
+        group: CreateGroupDTO,
+        @Req() req
     ): Promise<Group> {
-        return this.groupService.createGroup(group)
+        return this.groupService.createGroup(group, req.user);
     }
 
     @Get(':id')

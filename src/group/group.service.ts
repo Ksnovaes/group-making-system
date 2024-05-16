@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Group } from './schemas/group.schema';
 import * as mongoose from 'mongoose';
+import { User } from 'src/auth/schemas/user.schema';
 
 @Injectable()
 export class GroupService {
@@ -15,8 +16,10 @@ export class GroupService {
         return groups
     }
 
-    async createGroup(group: Group): Promise<Group> {
-        const res = await this.groupModel.create(group);
+    async createGroup(group: Group, user: User): Promise<Group> {
+        const data = Object.assign(group, { user: user._id })
+        
+        const res = await this.groupModel.create(data);
         return res
     }
 
