@@ -38,9 +38,7 @@ We''ll manage/create our requisitions in postman, so install postman or any othe
 
 [Install clicking here](https://www.postman.com/downloads/)
 
-Now that you have your postman successfully installed, you need to create a requisition, follow the image above:
-
-<img src="https://prnt.sc/q0Gk3AC4ZbGi" alt="Postman Requisition">
+Now that you have your postman successfully installed, you need to create a requisition, follow the image [here](https://prnt.sc/q0Gk3AC4ZbGi):
 
 API will be available in `http://localhost:3000`
 ###### Copy this and paste in your postman
@@ -55,9 +53,7 @@ API will be available in `http://localhost:3000`
 ### Group
 
 - **POST /create** - with this endpoint you can create groups
-    - You will need authorization to create a group. Upon registration, you will receive a token. Use this token and place it in the value, just like in the image above.
-
-<img src="https://prnt.sc/CsulHdVi5XVL" alt="Postman Requisition">
+    - You will need authorization to create a group. Upon registration, you will receive a token. Use this token and place it in the value, just like in the image [here](https://prnt.sc/CsulHdVi5XVL).
 
 - **GET /groups** - this endpoint will return all existent groups
 - **GET /:id** - this endpoint will return a group by his id
