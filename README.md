@@ -14,7 +14,7 @@ This repository has the backend of an application I created for a college projec
 
 **1.** Clone the repository:
 ```bash
-git clone https://github.com/(user)/group-making-system.git
+git clone https://github.com/Ksnovaes/group-making-system.git
 ```
 **2.** Install the following dependencies:
 ```bash
