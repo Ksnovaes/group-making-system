@@ -1,5 +1,6 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { Gender } from "../schemas/user.schema";
+import { Group } from "src/group/schemas/group.schema";
 
 export class SignUpDTO {
     @IsNotEmpty()
@@ -26,4 +27,7 @@ export class SignUpDTO {
     @IsString()
     @MinLength(8)
     readonly password: string;
+
+    @IsEmpty()
+    readonly groups: Group[];
 }

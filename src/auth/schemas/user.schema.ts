@@ -32,6 +32,9 @@ export class User extends Document {
 
     @Prop()
     password: string;
+
+    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Group' }] })
+    groups: mongoose.Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

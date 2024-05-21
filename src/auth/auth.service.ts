@@ -62,12 +62,23 @@ export class AuthService {
             throw new BadRequestException('Enter a valid Id.')
         }
 
-        const user = await this.userModel.findById(id);
+        const user = await this.userModel.findById(id).populate({
+            path: 'groups',
+            select: 'title description'
+        });
 
         if (!user) {
             throw new NotFoundException('User not found.')
         }
         
+        return user
+    }
+
+    async findUsers(): Promise<User[]> {
+        const user = await this.userModel.find().populate({
+            path: 'groups',
+            select: 'title description'
+        });
         return user
     }
 }

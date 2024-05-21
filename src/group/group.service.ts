@@ -3,12 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Group } from './schemas/group.schema';
 import * as mongoose from 'mongoose';
 import { User } from 'src/auth/schemas/user.schema';
+import { CreateGroupDTO } from './dto/create-group.dto';
 
 @Injectable()
 export class GroupService {
     constructor(
         @InjectModel(Group.name)
         private groupModel: mongoose.Model<Group>,
+        @InjectModel(User.name)
+        private userModel: mongoose.Model<User>
     ) {}
 
     async findAll(): Promise<Group[]> {
@@ -16,11 +19,18 @@ export class GroupService {
         return groups
     }
 
-    async createGroup(group: Group, user: User): Promise<Group> {
-        const data = Object.assign(group, { user: user._id })
+    async createGroup(createGroupDTO: CreateGroupDTO, user: User): Promise<Group> {
+        const createdGroup = new this.groupModel({
+            ...createGroupDTO,
+            user: user._id,
+        });
         
-        const res = await this.groupModel.create(data);
-        return res
+        const result = await createdGroup.save();
+
+        user.groups.push(result._id);
+        await user.save();
+
+        return result;
     }
 
     async findById(id: string): Promise<Group> {

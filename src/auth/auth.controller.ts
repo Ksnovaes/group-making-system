@@ -26,6 +26,11 @@ export class AuthController {
         return this.authService.login(loginDTO)
     }
     
+    @Get('users')
+    async getAllUsers(): Promise<User[]> {
+        return this.authService.findUsers();
+    }
+
     @Get(':id')
     async getUserById(
         @Param('id')
@@ -33,4 +38,6 @@ export class AuthController {
     ): Promise<User> {
         return this.authService.findUserById(id);
     }
+
+    
 }
