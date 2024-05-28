@@ -28,6 +28,6 @@ export class SignUpDTO {
     @MinLength(8)
     readonly password: string;
 
-    @IsEmpty()
-    readonly groups: Group[];
+    @IsOptional()
+    readonly groups?: Group[];
 }

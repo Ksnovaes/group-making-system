@@ -15,7 +15,7 @@ export class GroupService {
     ) {}
 
     async findAll(): Promise<Group[]> {
-        const groups = await this.groupModel.find();
+        const groups = await this.groupModel.find().populate('user', '_id name email');
         return groups
     }
 
@@ -40,7 +40,7 @@ export class GroupService {
             throw new BadRequestException('Enter a valid Id.')
         }
 
-        const group = await this.groupModel.findById(id);
+        const group = await this.groupModel.findById(id).populate('user', '_id name email');
 
         if (!group) {
             throw new NotFoundException('Group not found.')
@@ -53,10 +53,10 @@ export class GroupService {
         return await this.groupModel.findByIdAndUpdate(id, group, {
             new: true,
             runValidators: true
-        });
+        }).populate('user', '_id name email');
     }
 
     async deleteGroupById(id: string): Promise<Group> {
-        return await this.groupModel.findByIdAndDelete(id);
+        return await this.groupModel.findByIdAndDelete(id).populate('user', '_id name email');
     }
 }

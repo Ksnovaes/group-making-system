@@ -9,16 +9,16 @@ import { AuthGuard } from '@nestjs/passport';
 export class GroupController {
     constructor(private groupService: GroupService) {}
 
+    @UseGuards(AuthGuard('jwt'))
     @Get('groups')
-    async getAllGroups(): Promise<Group[]> {
-        return this.groupService.findAll()
+    async getAllGroups(@Req() req): Promise<Group[]> {
+        return this.groupService.findAll();
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Post('create')
-    @UseGuards(AuthGuard())
     async createGroup(
-        @Body()
-        group: CreateGroupDTO,
+        @Body() group: CreateGroupDTO,
         @Req() req
     ): Promise<Group> {
         return this.groupService.createGroup(group, req.user);
@@ -26,27 +26,23 @@ export class GroupController {
 
     @Get(':id')
     async findGroupById(
-        @Param('id')
-        id: string
+        @Param('id') id: string
     ): Promise<Group> {
         return this.groupService.findById(id);
     }
 
     @Put(':id')
     async updateGroupById(
-        @Param('id')
-        id: string,
-        @Body()
-        group: UpdateGroupDTO
+        @Param('id') id: string,
+        @Body() group: UpdateGroupDTO
     ): Promise<Group> {
         return this.groupService.updateGroupById(id, group);
     }
 
     @Delete(':id')
     async deleteGroupById(
-        @Param('id')
-        id: string
+        @Param('id') id: string
     ): Promise<Group> {
-        return this.groupService.deleteGroupById(id)
+        return this.groupService.deleteGroupById(id);
     }
 }

@@ -14,25 +14,20 @@ import { GroupSchema } from 'src/group/schemas/group.schema';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          secret: config.get<string>('JWT_SECRET'),
-          signOptions: {
-            expiresIn: config.get<string | number>('JWT_EXPIRES')
-          }
-        }
-      }
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: config.get<string | number>('JWT_EXPIRES'),
+        },
+      }),
     }),
-    MongooseModule.forFeature([{
-      name: 'User',
-      schema: UserSchema
-    },{
-      name: 'Group',
-      schema: GroupSchema
-    }])
+    MongooseModule.forFeature([
+      { name: 'User', schema: UserSchema },
+      { name: 'Group', schema: GroupSchema },
+    ]),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule]
+  exports: [AuthService, JwtStrategy, PassportModule, JwtModule], 
 })
 export class AuthModule {}
